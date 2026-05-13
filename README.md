@@ -183,19 +183,389 @@ backend/
 
 ---
 
+# Frontend Documentation
+
+## Overview
+The frontend is a **Streamlit-based dashboard** that provides an intuitive interface for interacting with the AI Data Analyst platform. It enables users to upload datasets, generate insights, build workflows, and collaborate with the AI agent seamlessly.
+
+### Tech Stack
+- **Streamlit** — Modern web framework for rapid UI development
+- **Python** — Backend logic and API integration
+- **Custom CSS/Theme** — Dark theme with professional styling
+- **REST API Integration** — Communicates with FastAPI backend
+
+---
+
+## Frontend Architecture
+
+```text
+Frontend Dashboard (Streamlit)
+    ├── Home Page (Landing)
+    ├── Pages
+    │   ├── 1_Dataset_Onboarding.py      — Upload & register datasets
+    │   ├── 2_Registered_Datasets.py     — View registered datasets & metadata
+    │   ├── 3_Insights_Suite.py          — Generate business insights
+    │   ├── 4_Workflow_Intelligence.py   — Inspect SQL pipeline & data flow
+    │   └── 5_AI_Analyst.py              — Chat with AI agent & visualize results
+    │
+    └── Utilities (utils/)
+        ├── api_client.py      — API request handlers
+        ├── theme.py           — Dark theme styling & CSS
+        ├── present.py         — Result formatting & display components
+        ├── charts.py          — Chart rendering (Altair/Plotly)
+        ├── config.py          — Configuration management
+        └── __init__.py
+```
+
+---
+
+## Pages & Features
+
+### 1. **Home Page** (`Home.py`)
+**Landing page with platform overview and quick navigation.**
+
+**Features:**
+- Enterprise analytics experience header
+- Backend health status indicator (API connectivity check)
+- Feature showcase (4-column grid with icons)
+- Quick navigation links to all sections
+
+**Key Sections:**
+- Status card showing API connection state
+- Feature cards highlighting core capabilities
+- Navigation guide for users
+
+---
+
+### 2. **Dataset Onboarding** (`pages/1_Dataset_Onboarding.py`)
+**Upload and register CSV/XLSX datasets for analysis.**
+
+**Features:**
+- Drag-and-drop file uploader (CSV/XLSX)
+- One-click upload & registration workflow
+- Dataset preview (schema, sample rows, cleaning summary)
+- Automatic dataset registration in the system
+- Upload history tracking
+
+**Workflow:**
+1. User selects a CSV or XLSX file
+2. Clicks "Upload & register" button
+3. Backend processes and validates the file
+4. Dataset is registered and displayed with metadata
+5. User can proceed to analytics or upload another file
+
+**API Endpoint:** `POST /upload`
+
+---
+
+### 3. **Registered Datasets** (`pages/2_Registered_Datasets.py`)
+**Browse and explore all registered datasets and their metadata.**
+
+**Features:**
+- List all registered datasets
+- View dataset metadata (name, columns, row count, file size)
+- Dataset preview and schema inspection
+- Filter and search functionality
+
+**Use Cases:**
+- Verify registered datasets before analysis
+- Check data shape and types
+- Confirm dataset availability for insights/forecasting
+
+**API Endpoint:** `GET /datasets`
+
+---
+
+### 4. **Insights Suite** (`pages/3_Insights_Suite.py`)
+**Generate AI-driven business insights and KPI dashboards.**
+
+**Features:**
+- Dataset selection dropdown
+- One-click insight generation
+- Automated KPI extraction
+- Narrative-based business insights
+- Formatted results display
+
+**Generated Insights Include:**
+- Summary statistics
+- KPI dashboards
+- Business narratives
+- Trend observations
+- Actionable recommendations
+
+**Workflow:**
+1. User selects a registered dataset
+2. Clicks "Run" to generate insights
+3. Backend analyzes data and extracts KPIs
+4. Formatted insights display with charts
+
+**API Endpoint:** `GET /generate-insights`
+
+---
+
+### 5. **Workflow Intelligence** (`pages/4_Workflow_Intelligence.py`)
+**Inspect SQL pipeline transformations and data flow.**
+
+**Features:**
+- Visualize data transformation pipeline
+- SQL query inspection
+- Dependency chain visualization
+- Workflow state inspection
+- Execution history tracking
+
+**Use Cases:**
+- Audit data transformations
+- Debug SQL queries
+- Understand data lineage
+- Validate workflow integrity
+
+**API Endpoint:** `GET /workflow`
+
+---
+
+### 6. **AI Analyst** (`pages/5_AI_Analyst.py`)
+**Interactive chat interface with multi-agent AI assistant.**
+
+**Features:**
+- Natural language query input
+- Dataset selection
+- Optional forecasting parameters (date column, target column)
+- Multi-task agent routing (SQL queries, insights, forecasting)
+- Dynamic chart generation
+- Real-time result display
+- Conversational analytics
+
+**Supported Query Types:**
+- **SQL Analytics**: "Show total sales by category"
+- **Forecasting**: "Predict revenue for the next 30 days"
+- **Insights**: "Summarize key trends in this data"
+- **Visualization**: "Create a scatter plot of X vs Y"
+
+**Forecasting Options:**
+- Optional manual column selection
+- Auto-detection if not specified
+- Confidence interval visualization
+- Trend analysis
+
+**Workflow:**
+1. User selects a dataset
+2. Enters a natural language question
+3. (Optional) Specifies date and target columns for forecasting
+4. Clicks "Ask agent"
+5. Backend routes to appropriate agent (SQL, Forecast, Insight, Viz)
+6. Results display with charts/insights
+
+**API Endpoint:** `POST /agent`
+
+---
+
+## Frontend Utilities
+
+### `api_client.py`
+Handles all API communication with the backend.
+
+**Key Functions:**
+- `health()` — Check API connectivity
+- `upload_file()` — Upload datasets to backend
+- `list_datasets()` — Retrieve registered datasets
+- `generate_insights()` — Generate business insights
+- `run_agent()` — Send queries to AI agent
+- `get_workflow()` — Fetch workflow details
+
+---
+
+### `theme.py`
+Custom dark theme styling for professional appearance.
+
+**Features:**
+- Brand color palette (primary, secondary, accent colors)
+- Dark gradient background
+- Responsive typography
+- Card and component styling
+- Hover effects and transitions
+- **Mesh grid background** (subtle white grid overlay)
+
+**Color Variables:**
+- `--brand-bg`: #081423 (main background)
+- `--brand-primary`: #01b8aa (teal/cyan)
+- `--brand-secondary`: #f2c80f (yellow)
+- `--brand-accent`: #f48c06 (orange)
+
+---
+
+### `present.py`
+Format and display API responses in user-friendly layouts.
+
+**Key Functions:**
+- `display_upload_response()` — Show dataset upload results
+- `display_insights_response()` — Display insights with charts
+- `display_agent_response()` — Show AI agent results
+- Custom formatting for KPIs, charts, and narratives
+
+---
+
+### `charts.py`
+Chart rendering using Altair and Plotly.
+
+**Supported Chart Types:**
+- Bar charts
+- Line charts
+- Scatter plots
+- Pie charts
+- Forecast charts (with confidence intervals)
+
+---
+
+### `config.py`
+Configuration management (API base URL, environment settings).
+
+**Key Functions:**
+- `get_api_base()` — Retrieve API base URL
+- Environment variable handling
+- Default configuration fallbacks
+
+---
+
+## Running the Frontend
+
+### Prerequisites
+- Python 3.8+
+- Streamlit
+- Backend running at the specified API_BASE_URL
+
+### Setup
+
+1. **Install dependencies**:
+   ```bash
+   cd frontend
+   pip install -r requirements.txt
+   ```
+
+2. **Set environment variables** (optional):
+   ```bash
+   export API_BASE_URL=http://localhost:8000
+   ```
+
+3. **Run the Streamlit app**:
+   ```bash
+   streamlit run Home.py
+   ```
+
+4. **Access the dashboard**:
+   Open your browser to `http://localhost:8501`
+
+### Configuration
+The frontend looks for the backend API at:
+- Environment variable: `API_BASE_URL` (default: `http://localhost:8000`)
+- Fallback: Displayed in the UI for user awareness
+
+---
+
+## Styling & Customization
+
+### Theme System
+All styling is managed through `utils/theme.py`. The CSS includes:
+- CSS variables for brand colors
+- Responsive layouts
+- Dark theme with accent colors
+- Hover and transition effects
+- **Mesh grid background** for visual depth
+
+### Customizing the Theme
+Edit `utils/theme.py` to modify:
+- Brand colors (CSS variables)
+- Background gradients
+- Font sizes and spacing
+- Card and button styling
+- Mesh grid opacity/spacing
+
+---
+
+## API Integration
+
+The frontend communicates with the backend via REST endpoints. All requests are handled through `utils/api_client.py`:
+
+| Endpoint | Method | Purpose |
+|----------|--------|---------|
+| `/health` | GET | Check backend status |
+| `/upload` | POST | Upload and register datasets |
+| `/datasets` | GET | List registered datasets |
+| `/generate-insights` | GET | Generate business insights |
+| `/agent` | POST | Query multi-agent AI system |
+| `/workflow` | GET | Inspect data pipeline |
+
+---
+
+## User Workflow
+
+```
+1. Home Page (Landing)
+   ↓
+2. Dataset Onboarding (Upload CSV/XLSX)
+   ↓
+3. Registered Datasets (Verify upload)
+   ↓
+4. Insights Suite / AI Analyst / Workflow Intelligence
+   ├─ Generate insights automatically
+   ├─ Ask natural language questions
+   └─ Inspect transformation pipeline
+   ↓
+5. Results & Visualization
+   ├─ Charts and KPIs
+   ├─ Narrative insights
+   └─ Forecast predictions
+```
+
+---
+
 # Installation & Setup
+
+## Backend Setup
 
 1. **Clone & Install**:
    ```bash
    git clone <repo-url>
+   cd AI-Data-Analyst
    pip install -r requirements.txt
    ```
-2. **Environment**:
-   Set `OPENROUTER_API_KEY` in your `.env` file.
-3. **Run**:
+
+2. **Environment Setup**:
+   Create a `.env` file in the project root:
+   ```env
+   OPENROUTER_API_KEY=your_api_key_here
+   API_BASE_URL=http://localhost:8000
+   ```
+
+3. **Run Backend Server**:
    ```bash
    uvicorn backend.main:app --reload
    ```
+   Backend will be available at `http://localhost:8000`
+
+## Frontend Setup
+
+1. **Install Dependencies**:
+   ```bash
+   cd frontend
+   pip install -r requirements.txt
+   ```
+
+2. **Set API Configuration** (optional):
+   ```bash
+   export API_BASE_URL=http://localhost:8000
+   ```
+
+3. **Run Frontend**:
+   ```bash
+   streamlit run Home.py
+   ```
+   Dashboard will open at `http://localhost:8501`
+
+## Verification
+
+- Backend Health: Navigate to `http://localhost:8000/health`
+- Frontend Status Card: Shows API connection status on home page
+- Upload Test: Try uploading a sample CSV file to verify end-to-end workflow
 
 ---
 
