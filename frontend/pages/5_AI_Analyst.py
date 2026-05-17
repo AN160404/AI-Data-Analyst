@@ -11,6 +11,7 @@ st.set_page_config(
     page_title="AI Analyst",
     page_icon=":material/smart_toy:",
     layout="wide",
+    initial_sidebar_state="expanded",
 )
 
 from utils.api_client import list_datasets, run_agent

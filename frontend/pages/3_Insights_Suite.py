@@ -11,6 +11,7 @@ st.set_page_config(
     page_title="Insights Suite",
     page_icon=":material/lightbulb:",
     layout="wide",
+    initial_sidebar_state="expanded",
 )
 
 from utils.api_client import generate_insights, list_datasets

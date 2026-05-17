@@ -11,6 +11,7 @@ st.set_page_config(
     page_title="Registered Datasets",
     page_icon=":material/folder:",
     layout="wide",
+    initial_sidebar_state="expanded",
 )
 
 import pandas as pd

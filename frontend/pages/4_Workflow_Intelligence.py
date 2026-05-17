@@ -11,6 +11,7 @@ st.set_page_config(
     page_title="Workflow Intelligence",
     page_icon=":material/data_usage:",
     layout="wide",
+    initial_sidebar_state="expanded",
 )
 
 from utils.api_client import list_datasets, workflow_analysis

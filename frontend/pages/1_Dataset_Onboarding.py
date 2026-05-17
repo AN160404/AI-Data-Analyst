@@ -11,6 +11,7 @@ st.set_page_config(
     page_title="Dataset Onboarding",
     page_icon=":material/cloud_upload:",
     layout="wide",
+    initial_sidebar_state="expanded",
 )
 
 from utils.api_client import upload_file
