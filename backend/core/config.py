@@ -15,6 +15,7 @@ class Settings:
     OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
     DATABASE_URL = os.getenv("DATABASE_URL")
     AZURE_STORAGE_CONNECTION_STRING = os.getenv("AZURE_STORAGE_CONNECTION_STRING")
+    AZURE_STORAGE_CONTAINER_NAME = os.getenv("AZURE_STORAGE_CONTAINER_NAME", "uploads")
     MODEL_NAME = os.getenv("MODEL_NAME")
 
 settings = Settings()
